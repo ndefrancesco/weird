@@ -3,11 +3,15 @@ run("Select None");
 nCircles = 48;
 selectImage("nodes.jpg");
 setBatchMode(true);
+if(getWidth>1000){ //speeding up for web, can be rerun on same image
+	run("Scale...", "x=.15 y=.15 width=756 height=756 interpolation=Bilinear average");
+	run("Canvas Size...", "width=567 height=567 position=Center");
+}
 alphas = newArray('1f', '3f', '5f', '7f', '9f', 'bf', 'df', 'ff', 'ff', 'ff',  'ff', 'ff', 'ff', 'ff',  'ff',  'ff',  'ff',  'ff', 'df', 'bf', '9f', '7f', '5f', '3f', '1f');
 run("Duplicate...", " ");
 id=getImageID;
 run("8-bit");
-run("Minimum...", "radius=2");
+//run("Minimum...", "radius=2");
 setAutoThreshold("Default");
 run("Analyze Particles...", "  circularity=0.9-1.00 clear add");
 selectImage(id);
@@ -26,7 +30,7 @@ cols=newArray(roiCount);
 for (i=0; i < roiCount; i++) {
 	roiManager("select", i);
 	getSelectionBounds(x, y, width, height);
-	v=getPixel(x-3, y+height/2);
+	v=getPixel(x-1, y+height/2);
 	cols[i] = substring(toHex(v), 2); 
 }
 selectImage(id);
